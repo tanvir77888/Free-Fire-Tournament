@@ -1,24 +1,32 @@
 <?php
 session_start();
-$host = '127.0.0.1';
-$db   = 'tanvir_shop';
-$user = 'root';
-$pass = 'root'; // Change to empty if no password
+
+// Neon PostgreSQL Connection String থেকে ডাটা নেয়া
+$host = 'ep-soft-firefly-am6ik9em-pooler.c-5.us-east-1.aws.neon.tech';
+$db   = 'neondb';
+$user = 'neondb_owner';
+$pass = 'npg_0VDgNSTqiv4F';
+
+// Cloudinary ডিটেইলস
+define('CLOUDINARY_URL', 'cloudinary://616931951189487:5sqdoEzHwYTKmRNT88JcAQIEoVQ@de7nje8uh');
+define('CLOUDINARY_CLOUD_NAME', 'de7nje8uh');
+define('CLOUDINARY_API_KEY', '616931951189487');
+define('CLOUDINARY_API_SECRET', '5sqdoEzHwYTKmRNT88JcAQIEoVQ');
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
+    // MySQL এর বদলে pgsql (PostgreSQL) ড্রাইভার ব্যবহার
+    $dsn = "pgsql:host=$host;port=5432;dbname=$db;sslmode=require";
+    $pdo = new PDO($dsn, $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Security: Disable right-click and zoom via JS
+// Security: রাইট ক্লিক এবং জুম অফ করা
 echo "<script>
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '0')) {
-            e.preventDefault();
-        }
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+        if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '0')) e.preventDefault();
     });
 </script>";
 ?>
