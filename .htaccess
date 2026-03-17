@@ -1,0 +1,7 @@
+RewriteEngine On
+# যদি ফাইল বা ফোল্ডার সরাসরি থাকে তবে সেটা ওপেন করো
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# ফাইল এক্সটেনশন .php ছাড়া ইউআরএল দেখানোর নিয়ম
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
